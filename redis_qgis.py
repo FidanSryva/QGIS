@@ -46,7 +46,7 @@ def handle_realtime_update():
         print(f"Error handling real-time update: {str(e)}")
 
 # Set up a timer to periodically update the QGIS layer
-update_interval_ms = 5000  # Set the update interval in milliseconds
+update_interval_ms = 600000  # Set the update interval in milliseconds
 timer = QTimer()
 timer.timeout.connect(handle_realtime_update)
 timer.start(update_interval_ms)
