@@ -118,7 +118,7 @@ def cache_data_from_postgresql_to_redis(redis_connection, server_url):
     postgres_cursor = postgres_connection.cursor()
 
     try:
-        postgres_cursor.execute("SELECT * FROM fms.locations_vers2 limit 1000000;")
+        postgres_cursor.execute("WITH NumberedRows AS (SELECT*,  ROW_NUMBER() OVER (PARTITION BY unit_id ORDER BY location_time DESC) AS rn FROM fms.locations_vers2 ) SELECT * FROM NumberedRows WHERE location_time >= CURRENT_DATE - INTERVAL '1 week';")
         result_rows = postgres_cursor.fetchall()
 
         redis_list_key = 'fms.locations_vers2:list'
